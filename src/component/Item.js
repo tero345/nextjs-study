@@ -12,7 +12,7 @@ export default function Item({ item }) {
         category,
         product_type,
         //product_link,
-      } = item;
+    } = item;
 
     return (
         <>
