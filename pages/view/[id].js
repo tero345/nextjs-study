@@ -4,7 +4,12 @@ import Axios from 'axios';
 import Item from '../../src/component/Item';
 import Head from 'next/head'
 
-const Post = ({ item }) => {
+// 랜더링
+function Post({ item, name }) {
+    
+// }
+// const Post = ({ item }) => {
+
     // 라우터 가져오기
     // router.push | router.replace
     // push로 이동시키면 history stack에 쌓여서 뒤로가기가 가능하고
@@ -39,7 +44,9 @@ const Post = ({ item }) => {
                         <title>{item.name}</title>
                         <meta name="description" content={item.description} />
                         <link rel="icon" href="/favicon.ico" />
-                    </Head><Item item={item} />
+                    </Head>
+                    {name} 환경 입니다.
+                    <Item item={item} />
                 </>
             } 
         </>
@@ -49,6 +56,8 @@ const Post = ({ item }) => {
 export default Post;
 
 // context 응답, params 등
+// @ getServerSideProps: ssr을 위해 data fetching
+// SSR 형태로 페이지를 생성하고 싶은 경우엔 페이지 컴포넌트 파일에 getServerSideProps 라는 함수를 export 하면 된다.
 export async function getServerSideProps(context) {
     const id =  context.params.id;
     const apiUrl = `http://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
@@ -58,6 +67,7 @@ export async function getServerSideProps(context) {
     return {
         props: {
             item: data,
+            name: process.env.name
         }
     }
 }
