@@ -3,9 +3,24 @@ import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Item from '../../src/component/Item';
 import Head from 'next/head'
+import { Loader } from "semantic-ui-react";
 
 // 랜더링
 function Post({ item, name }) {
+
+    // Fallback 상태일 경우 빈화면 보여주기 전에 로딩 화면 처리
+    const router = useRouter();
+
+    if(router.isFallback){
+        return(
+            <div style={{ padding: "100px 0" }}>
+                <Loader active inline="centered">
+                Loading
+                </Loader>
+            </div>
+        )
+    }
+
     return (
         <>
             {item &&
@@ -26,12 +41,17 @@ function Post({ item, name }) {
 export default Post;
 
 export async function getStaticPaths() {
+    const apiUrl = process.env.apiUrl;
+    const res = await Axios.get(apiUrl);
+    const data = res.data;
+
     return {
-      paths: [
-        { params: { id: "740" } },
-        { params: { id: "730" } },
-        { params: { id: "729" } },
-      ],
+        // 9개까지 미리 렌더링 처리 이후부터는 스크롤 시 생성
+         paths: data.slice(0, 9).map(item => ({
+            params : {
+                id: item.id.toString(),
+            }
+         })),
       fallback: true,
     };
   }
