@@ -71,3 +71,17 @@ export async function getServerSideProps(context) {
         }
     }
 }
+
+
+// export function getStaticPath() {
+//     return {
+//         paths: [
+//             {params: { id: "740" }},
+//             {params: { id: "730" }},
+//             {params: { id: "729" }},
+//         ],
+//         false : getStaticPaths에서 리턴하지 않은 페이지는 모두 404로 연결
+//         true : 먼저 사용자에게 fallback 페이지를 보여줌 / 서버에서 static하게 페이지를 생성함
+//         fallback: false, // false 일 경우 없는 페이지는 대응이 안함
+//     }
+// }
